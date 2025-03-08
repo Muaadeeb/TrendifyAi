@@ -1,6 +1,8 @@
 ﻿@page "/"
 @attribute [Authorize]
 @inject ITrendService TrendService
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
     <MudText Typo="Typo.h3" GutterBottom="true">TrendifyAI</MudText>
@@ -34,7 +36,11 @@
                             <MudExpansionPanels Dense="true">
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Why: <strong>@trend.Context</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2">
+                                            <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" />
+                                            Why: <strong>@trend.Context</strong>
+                                            <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Size="Size.Small" Color="Color.Surface" Class="ml-2" OnClick="@(() => CopyToClipboard(trend.Context, "Why copied!"))" />
+                                        </MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The hot scoop behind the trend—what’s driving the buzz right now. We dig into the chatter so you know why it matters.</MudText>
@@ -42,7 +48,11 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Idea: <strong>@trend.ActionableIdea</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2">
+                                            <MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" />
+                                            Idea: <strong>@trend.ActionableIdea</strong>
+                                            <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Size="Size.Small" Color="Color.Surface" Class="ml-2" OnClick="@(() => CopyToClipboard(trend.ActionableIdea, "Idea copied!"))" />
+                                        </MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">Your next big move—a killer strategy to jump on this trend and grow your audience, cooked up just for you.</MudText>
@@ -50,7 +60,11 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Post: <strong>@trend.PreDraftedContent</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2">
+                                            <MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" />
+                                            Post: <strong>@trend.PreDraftedContent</strong>
+                                            <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Size="Size.Small" Color="Color.Surface" Class="ml-2" OnClick="@(() => CopyToClipboard(trend.PreDraftedContent, "Post copied!"))" />
+                                        </MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">A ready-to-roll post that rides the wave—copy, paste, and watch the likes roll in. We write it, you shine.</MudText>
@@ -58,7 +72,11 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Reach: <strong>@trend.EstimatedReach mentions</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2">
+                                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" />
+                                            Reach: <strong>@trend.EstimatedReach mentions</strong>
+                                            <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Size="Size.Small" Color="Color.Surface" Class="ml-2" OnClick="@(() => CopyToClipboard(trend.EstimatedReach.ToString() + " mentions", "Reach copied!"))" />
+                                        </MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The crowd this trend’s hitting—how many eyes could see your move. Bigger reach, bigger wins.</MudText>
@@ -111,5 +129,11 @@
     private void PageChanged(int page)
     {
         currentPage = page;
+    }
+
+    private async Task CopyToClipboard(string text, string message)
+    {
+        await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+        Snackbar.Add(message, Severity.Success);
     }
 }
