@@ -24,9 +24,16 @@
                 {
                     <MudItem xs="12" sm="6" md="4">
                         <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">@trend.Trend</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
                             <MudCardContent>
-                                <MudText Typo="Typo.h6">@trend.Trend</MudText>
-                                <MudText>@trend.SuggestedContent</MudText>
+                                <MudText><strong>Why:</strong> @trend.Context</MudText>
+                                <MudText><strong>Idea:</strong> @trend.ActionableIdea</MudText>
+                                <MudText><strong>Post:</strong> @trend.PreDraftedContent</MudText>
+                                <MudText><strong>Reach:</strong> @trend.EstimatedReach mentions</MudText>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -50,7 +57,7 @@
     {
         isLoading = true;
         errorMessage = null;
-        trends = null; // Reset trends
+        trends = null;
         try
         {
             trends = await TrendService.GetTrends(niche);
