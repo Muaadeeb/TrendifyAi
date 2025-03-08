@@ -17,28 +17,24 @@
     }
     else if (trends != null && trends.Any())
     {
-        <MudGrid Class="mt-4">
+        <MudGrid Class="mt-6">
             @foreach (var trend in displayedTrends)
             {
                 <MudItem xs="12" sm="6" md="4">
-                    <MudCard Elevation="2">
-                        <MudCardHeader>
+                    <MudCard Elevation="1" Class="mud-elevation-hover-3">
+                        <MudCardHeader Class="py-2">
                             <CardHeaderContent>
-                                <MudText Typo="Typo.h6">
-                                    @trend.Trend (Rank #@trend.Ranking)
-                                @*     @if (trend.Ranking <= 3)
-                                    {
-                                        <MudBadge Content="@trend.Ranking" Color="Color.Primary" Overlap="true" Class="ml-2" />
-                                    } *@
+                                <MudText Typo="Typo.h5" Color="@(trend.Ranking <= 3 ? Color.Primary : Color.Default)">
+                                    #@trend.Ranking @trend.Trend
                                 </MudText>
-                                <MudChip T="string" Color="Color.Primary" Size="Size.Small" Class="ml-2">@trend.EstimatedReach mentions</MudChip>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@trend.EstimatedReach mentions</MudText>
                             </CardHeaderContent>
                         </MudCardHeader>
-                        <MudCardContent Class="pa-4">
-                            <MudExpansionPanels>
+                        <MudCardContent Class="pa-3">
+                            <MudExpansionPanels Dense="true">
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Why: <strong>@trend.Context</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Why: <strong>@trend.Context</strong></MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The hot scoop behind the trend—what’s driving the buzz right now. We dig into the chatter so you know why it matters.</MudText>
@@ -46,7 +42,7 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Idea: <strong>@trend.ActionableIdea</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Idea: <strong>@trend.ActionableIdea</strong></MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">Your next big move—a killer strategy to jump on this trend and grow your audience, cooked up just for you.</MudText>
@@ -54,7 +50,7 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Post: <strong>@trend.PreDraftedContent</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Post: <strong>@trend.PreDraftedContent</strong></MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">A ready-to-roll post that rides the wave—copy, paste, and watch the likes roll in. We write it, you shine.</MudText>
@@ -62,7 +58,7 @@
                                 </MudExpansionPanel>
                                 <MudExpansionPanel IsExpanded="false">
                                     <TitleContent>
-                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Reach: <strong>@trend.EstimatedReach mentions</strong></MudText>
+                                        <MudText Typo="Typo.subtitle2"><MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Reach: <strong>@trend.EstimatedReach mentions</strong></MudText>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The crowd this trend’s hitting—how many eyes could see your move. Bigger reach, bigger wins.</MudText>
@@ -74,7 +70,7 @@
                 </MudItem>
             }
         </MudGrid>
-        <MudPagination Selected="@currentPage" Count="@totalPages" Class="mt-4" SelectedChanged="PageChanged" />
+        <MudPagination Selected="@currentPage" Count="@totalPages" Class="mt-4 d-flex justify-center" SelectedChanged="PageChanged" />
     }
     else if (trends != null)
     {
@@ -97,7 +93,7 @@
         isLoading = true;
         errorMessage = null;
         trends = null;
-        currentPage = 1; // Reset to first page on new scan
+        currentPage = 1;
         try
         {
             trends = await TrendService.GetTrends(niche);
