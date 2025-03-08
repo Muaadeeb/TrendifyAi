@@ -15,80 +15,89 @@
     {
         <MudAlert Severity="Severity.Error" Class="mt-4">@errorMessage</MudAlert>
     }
+    else if (trends != null && trends.Any())
+    {
+        <MudGrid Class="mt-4">
+            @foreach (var trend in displayedTrends)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="2">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">
+                                    @trend.Trend (Rank #@trend.Ranking)
+                                @*     @if (trend.Ranking <= 3)
+                                    {
+                                        <MudBadge Content="@trend.Ranking" Color="Color.Primary" Overlap="true" Class="ml-2" />
+                                    } *@
+                                </MudText>
+                                <MudChip T="string" Color="Color.Primary" Size="Size.Small" Class="ml-2">@trend.EstimatedReach mentions</MudChip>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent Class="pa-4">
+                            <MudExpansionPanels>
+                                <MudExpansionPanel IsExpanded="false">
+                                    <TitleContent>
+                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Why: <strong>@trend.Context</strong></MudText>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The hot scoop behind the trend—what’s driving the buzz right now. We dig into the chatter so you know why it matters.</MudText>
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                                <MudExpansionPanel IsExpanded="false">
+                                    <TitleContent>
+                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Idea: <strong>@trend.ActionableIdea</strong></MudText>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">Your next big move—a killer strategy to jump on this trend and grow your audience, cooked up just for you.</MudText>
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                                <MudExpansionPanel IsExpanded="false">
+                                    <TitleContent>
+                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Post: <strong>@trend.PreDraftedContent</strong></MudText>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">A ready-to-roll post that rides the wave—copy, paste, and watch the likes roll in. We write it, you shine.</MudText>
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                                <MudExpansionPanel IsExpanded="false">
+                                    <TitleContent>
+                                        <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Reach: <strong>@trend.EstimatedReach mentions</strong></MudText>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The crowd this trend’s hitting—how many eyes could see your move. Bigger reach, bigger wins.</MudText>
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+        <MudPagination Selected="@currentPage" Count="@totalPages" Class="mt-4" SelectedChanged="PageChanged" />
+    }
     else if (trends != null)
     {
-        @if (trends.Any())
-        {
-            <MudGrid Class="mt-4">
-                @foreach (var trend in trends)
-                {
-                    <MudItem xs="12" sm="6" md="4">
-                        <MudCard Elevation="2">
-                            <MudCardHeader>
-                                <CardHeaderContent>
-                                    <MudText Typo="Typo.h6">@trend.Trend (Rank #@trend.Ranking)</MudText>
-                                    <MudChip T="string" tabindex="" Color="Color.Primary" Size="Size.Small" Class="ml-2">@trend.EstimatedReach mentions</MudChip>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent Class="pa-4">
-                                <MudExpansionPanels>
-                                    <MudExpansionPanel>
-                                        <TitleContent>
-                                            <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Why: <strong>@trend.Context</strong></MudText>
-                                        </TitleContent>
-                                        <ChildContent>
-                                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The hot scoop behind the trend—what’s driving the buzz right now. We dig into the chatter so you know why it matters.</MudText>
-                                        </ChildContent>
-                                    </MudExpansionPanel>
-                                    <MudExpansionPanel>
-                                        <TitleContent>
-                                            <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.Lightbulb" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Idea: <strong>@trend.ActionableIdea</strong></MudText>
-                                        </TitleContent>
-                                        <ChildContent>
-                                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">Your next big move—a killer strategy to jump on this trend and grow your audience, cooked up just for you.</MudText>
-                                        </ChildContent>
-                                    </MudExpansionPanel>
-                                    <MudExpansionPanel>
-                                        <TitleContent>
-                                            <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.PostAdd" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Post: <strong>@trend.PreDraftedContent</strong></MudText>
-                                        </TitleContent>
-                                        <ChildContent>
-                                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">A ready-to-roll post that rides the wave—copy, paste, and watch the likes roll in. We write it, you shine.</MudText>
-                                        </ChildContent>
-                                    </MudExpansionPanel>
-                                    <MudExpansionPanel>
-                                        <TitleContent>
-                                            <MudText Typo="Typo.subtitle1"><MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Class="mr-2" Color="Color.Primary" /> Reach: <strong>@trend.EstimatedReach mentions</strong></MudText>
-                                        </TitleContent>
-                                        <ChildContent>
-                                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="ml-6">The crowd this trend’s hitting—how many eyes could see your move. Bigger reach, bigger wins.</MudText>
-                                        </ChildContent>
-                                    </MudExpansionPanel>
-                                </MudExpansionPanels>
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-        }
-        else
-        {
-            <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Secondary">No trends found for "@niche"</MudText>
-        }
+        <MudText Class="mt-4" Typo="Typo.body1" Color="Color.Secondary">No trends found for "@niche"</MudText>
     }
 </MudContainer>
 
 @code {
     private string niche = "";
     private List<TrendViewModel> trends;
+    private List<TrendViewModel> displayedTrends => trends?.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage).ToList() ?? new List<TrendViewModel>();
     private bool isLoading = false;
     private string errorMessage;
+    private int currentPage = 1;
+    private int itemsPerPage = 5;
+    private int totalPages => (int)Math.Ceiling((double)(trends?.Count ?? 0) / itemsPerPage);
 
     private async Task ScanTrends()
     {
         isLoading = true;
         errorMessage = null;
         trends = null;
+        currentPage = 1; // Reset to first page on new scan
         try
         {
             trends = await TrendService.GetTrends(niche);
@@ -101,5 +110,10 @@
         {
             isLoading = false;
         }
+    }
+
+    private void PageChanged(int page)
+    {
+        currentPage = page;
     }
 }
