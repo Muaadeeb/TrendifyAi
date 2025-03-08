@@ -19,6 +19,9 @@
     {
         @if (trends.Any())
         {
+            
+
+
             <MudGrid Class="mt-4">
                 @foreach (var trend in trends)
                 {
@@ -30,10 +33,24 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                <MudText><strong>Why:</strong> @trend.Context</MudText>
-                                <MudText><strong>Idea:</strong> @trend.ActionableIdea</MudText>
-                                <MudText><strong>Post:</strong> @trend.PreDraftedContent</MudText>
-                                <MudText><strong>Reach:</strong> @trend.EstimatedReach mentions</MudText>
+                                <MudExpansionPanels>
+                                    <MudExpansionPanel Text="Why">
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">The hot scoop behind the trend—what’s driving the buzz right now. We dig into the chatter so you know why it matters.</MudText>
+                                        <MudText>@trend.Context</MudText>
+                                    </MudExpansionPanel>
+                                    <MudExpansionPanel Text="Idea">
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">Your next big move—a killer strategy to jump on this trend and grow your audience, cooked up just for you.</MudText>
+                                        <MudText>@trend.ActionableIdea</MudText>
+                                    </MudExpansionPanel>
+                                    <MudExpansionPanel Text="Post">
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">A ready-to-roll post that rides the wave—copy, paste, and watch the likes roll in. We write it, you shine.</MudText>
+                                        <MudText>@trend.PreDraftedContent</MudText>
+                                    </MudExpansionPanel>
+                                    <MudExpansionPanel Text="Reach">
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">The crowd this trend’s hitting—how many eyes could see your move. Bigger reach, bigger wins.</MudText>
+                                        <MudText>@trend.EstimatedReach mentions</MudText>
+                                    </MudExpansionPanel>
+                                </MudExpansionPanels>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>

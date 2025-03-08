@@ -24,24 +24,39 @@ namespace MudBlazorServer.Services
 
         public async Task<List<TrendViewModel>> GetTrends(string niche)
         {
-            await Task.Delay(1000); // Simulate async
+            await Task.Delay(1000);
+            if (niche.ToLower() == "wnba") // Niche-specific mock
+            {
+                return new List<TrendViewModel>
+                {
+                    new()
+                    {
+                        Trend = "#WNBAPlayoffs",
+                        Context = "Spiked after last night’s Finals win by the Liberty.",
+                        ActionableIdea = "Run a ‘Pick Your MVP’ poll to boost engagement.",
+                        PreDraftedContent = "Who’s your #WNBAPlayoffs MVP? Vote now and join the hype!",
+                        EstimatedReach = 2200
+                    },
+                    new()
+                    {
+                        Trend = "#LIGHTITUPNYL",
+                        Context = "Fans are buzzing over New York’s playoff run.",
+                        ActionableIdea = "Post a highlight reel of NYL’s top plays.",
+                        PreDraftedContent = "#LIGHTITUPNYL is on fire! Check out these clutch moments—thoughts?",
+                        EstimatedReach = 950
+                    }
+                };
+            }
+            // Generic fallback
             return new List<TrendViewModel>
             {
                 new()
                 {
                     Trend = $"#{niche}Trend",
-                    Context = $"{niche} is gaining traction due to recent events.",
-                    ActionableIdea = $"Create a {niche}-themed giveaway to ride the wave.",
-                    PreDraftedContent = $"Excited for #{niche}Trend! Win big in our {niche} giveaway—enter now!",
-                    EstimatedReach = 1500
-                },
-                new()
-                {
-                    Trend = $"#{niche}Buzz",
-                    Context = $"Fans are hyped about {niche} milestones this week.",
-                    ActionableIdea = $"Post a {niche} highlight reel to engage followers.",
-                    PreDraftedContent = $"#{niche}Buzz is unreal! Check out these top moments—what’s your fave?",
-                    EstimatedReach = 800
+                    Context = $"{niche} is hot after a big week.",
+                    ActionableIdea = $"Launch a {niche} fan challenge to ride the wave.",
+                    PreDraftedContent = $"#{niche}Trend is live! Join our {niche} challenge—details here!",
+                    EstimatedReach = 1200
                 }
             };
         }
