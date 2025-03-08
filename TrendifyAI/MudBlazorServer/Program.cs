@@ -59,8 +59,8 @@ namespace MudBlazorServer
             });
 
             // User defeined services.
-            builder.Services.AddScoped<ITrendService, TrendService>();
-
+            //builder.Services.AddScoped<ITrendService, TrendService>();
+            builder.Services.AddHttpClient<ITrendService, TrendService>();
 
             var app = builder.Build();
 
