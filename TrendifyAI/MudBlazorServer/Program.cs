@@ -5,6 +5,8 @@ using MudBlazor.Services;
 using MudBlazorServer.Components;
 using MudBlazorServer.Components.Account;
 using MudBlazorServer.Data;
+using MudBlazorServer.Services.Interfaces;
+using MudBlazorServer.Services;
 
 namespace MudBlazorServer
 {
@@ -49,6 +51,10 @@ namespace MudBlazorServer
             //    .AddDefaultTokenProviders();
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+            // User defeined services.
+            builder.Services.AddScoped<ITrendService, TrendService>();
+
 
             var app = builder.Build();
 
