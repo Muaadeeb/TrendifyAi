@@ -11,6 +11,8 @@ namespace MudBlazorServer.Services
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _config;
 
+        private readonly Dictionary<string, List<TrendViewModel>> _cache = new();
+
         public TrendService(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient;
@@ -24,13 +26,24 @@ namespace MudBlazorServer.Services
         {
             try
             {
+                if (_cache.TryGetValue(niche, out var cachedTrends))
+                {
+                    return cachedTrends;
+                }
+
                 var response = await _httpClient.GetAsync($"tweets/search/recent?query={niche}&max_results=10");
+                if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                {
+                    return new List<TrendViewModel>
+                    {
+                        new() { Trend = "Rate Limit Hit", SuggestedContent = "Too many requests—try again later!" }
+                    };
+                }
                 response.EnsureSuccessStatusCode();
 
                 var json = await response.Content.ReadAsStringAsync();
                 var data = JsonSerializer.Deserialize<XApiResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                // Extract hashtags as trends
                 var trends = data?.Data?
                     .SelectMany(t => t.Text.Split(' ')
                         .Where(w => w.StartsWith("#")))
@@ -56,7 +69,6 @@ namespace MudBlazorServer.Services
         }
     }
 
-    // Classes for X API response deserialization
     public class XApiResponse
     {
         public List<TweetData>? Data { get; set; }
